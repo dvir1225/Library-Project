@@ -9,7 +9,7 @@ function Book(title, author, pages, read){
 const mobyDick = 
 new Book("Moby Dick", "Herman Melville", 427, "unread" )
 const catcher = 
-new Book("The catcher in the Rye", "J.D. Salinger", 427, "read" )
+new Book("The catcher in the Rye", "J.D. Salinger", 208, "read" )
 const narnia = 
 new Book("The Lion, the Witch and the Wardrobe", "C.S. Lewis", 427, "unread" )
 const harryPotter = 
@@ -29,3 +29,18 @@ addBookToLibrary(narnia);
 addBookToLibrary(harryPotter);
 addBookToLibrary(lordOfRings);
 addBookToLibrary(songOfIceFire);
+
+function makeCards(myLibrary){
+    let cards = document.querySelector('.cards');
+    for (let i = 0; i < myLibrary.length; i++){
+        let card = document.createElement("div");
+        card.setAttribute('class', 'card');
+        card.setAttribute('id', `${i}`);
+        card.innerText =
+        `Title: ${myLibrary[i].title}
+        Author: ${myLibrary[i].author}
+        Pages: ${myLibrary[i].pages}
+        Read: ${myLibrary[i].read}`;
+        cards.appendChild(card);
+    }
+}
