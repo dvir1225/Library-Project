@@ -21,6 +21,7 @@ new Book("A Song of Ice and Fire", "George R.R.Martin", 720, "Read" )
 
 function addBookToLibrary(book){
    myLibrary.push(book);
+   book.index = myLibrary.length;
 }
 
 addBookToLibrary(mobyDick);
@@ -38,7 +39,7 @@ function makeCards(myLibrary){
     for (let i = 0; i < myLibrary.length; i++){
         let card = document.createElement("div");
         card.setAttribute('class', 'card');
-        card.setAttribute('data', `${i}`);
+        card.setAttribute('data', `${i+1}`);
         let title = document.createElement('span');
         title.setAttribute('class', 'title')
 
@@ -64,13 +65,13 @@ function makeCards(myLibrary){
         cards.appendChild(card);
 
         removeBtn = document.createElement('button');
-        removeBtn.setAttribute('id', `removeBtn ${i}`);
+        removeBtn.setAttribute('id', `${i}`);
         removeBtn.innerText = 'Remove book from library.';
         card.appendChild(removeBtn);
         removeBtn.addEventListener('click', (event) => {
-          myLibrary.splice(i, 1);
-          cards.removeChild(card);
-        })
+            delete myLibrary[`${i}`];
+            cards.removeChild(card);
+                })
 
         const readBtn = document.createElement('button');
         function getReadStatus(){
@@ -83,21 +84,22 @@ function makeCards(myLibrary){
         }
         getReadStatus()
         
+        function removeBook(){
+          
+        }
+
         readBtn.addEventListener('click', () => {
             if(readBtn.innerText === 'Mark book read'){
-                myLibrary[i].read = 'Read';
-                read.innerText = `Status: ${myLibrary[i].read}`;
+                this.read = 'Read';
+                read.innerText = `Status: Read`;
             } if (readBtn.innerText === 'Mark book unread') {
-                myLibrary[i].read = 'Unread';
-                read.innerText = `Status: ${myLibrary[i].read}`;
+                this.read = 'Unread';
+                read.innerText = `Status: Unread`;
             } getReadStatus()
         })
         card.appendChild(readBtn);
     }
 }
-
-
-
 const newBookBtn = document.querySelector('.newBookBtn');
 const newBookForm = document.querySelector('.newBookForm');
 
