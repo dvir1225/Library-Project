@@ -115,6 +115,8 @@ const attachEventListeners = () => {
                 myLibrary[bookIndex].read = 'Read';
                 resetBookDisplay();
             }
+        }  else if (eventTarget.className.includes('newBookBtn')){
+                selectors.newBookForm.style.display = 'block'
         }
     })
 }
