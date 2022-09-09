@@ -21,8 +21,10 @@ body {
     background-color: antiquewhite;
     box-shadow: 2px 2px silver;
     text-align: center;
-    width: 300px;
-    height: 300px;
+    width: 17vw;
+    min-width: 250px;
+    height: 17vw;
+    min-height: 250px;
     gap: 10px;
 }
 
