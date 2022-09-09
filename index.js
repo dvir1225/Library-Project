@@ -34,34 +34,39 @@ class Book {
 
 // example books
 const mobyDick = 
-new Book("Moby Dick", "Herman Melville", 427, true )
+new Book("Moby Dick", "Herman Melville", 427, "Read" )
 const catcher = 
-new Book("The catcher in the Rye", "J.D. Salinger", 208, true )
+new Book("The catcher in the Rye", "J.D. Salinger", 208, "Read" )
 const narnia = 
-new Book("The Lion, the Witch and the Wardrobe", "C.S. Lewis", 427, false )
+new Book("The Lion, the Witch and the Wardrobe", "C.S. Lewis", 427, "Unread" )
 const harryPotter = 
-new Book("Harry Potter and the Philosopher's Stone", "J.K. Rowling", 309, true )
+new Book("Harry Potter and the Philosopher's Stone", "J.K. Rowling", 309, "Read" )
 const lordOfRings = 
-new Book("The Lord of the Rings", "J.R.R. Tolkien", 1216, false )
+new Book("The Lord of the Rings", "J.R.R. Tolkien", 1216, "Unread" )
 const songOfIceFire =
-new Book("A Song of Ice and Fire", "George R.R.Martin", 720, true )
+new Book("A Song of Ice and Fire", "George R.R.Martin", 720, "Read" )
 
 
 
 const newCard = book => {
     let card = document.createElement('div');
     card.setAttribute('class', 'card');
+    card.setAttribute('data-index', `${book.index}`);
     let cardTitle = document.createElement('span');
     cardTitle.setAttribute('class', 'cardTitle');
+    cardTitle.setAttribute('data-index', `${book.index}`);
     cardTitle.innerText = book.title
     let cardAuthor = document.createElement('span');
     cardAuthor.setAttribute('class', 'cardAuthor');
+    cardAuthor.setAttribute('data-index', `${book.index}`);
     cardAuthor.innerText = book.author
     let cardPages = document.createElement('span');
+    cardPages.setAttribute('data-index', `${book.index}`);
     cardPages.setAttribute('class', 'cardPages');
     cardPages.innerText = book.pages
     let cardRead = document.createElement('span');
     cardRead.setAttribute('class', 'cardRead');
+    cardRead.setAttribute('data-index', `${book.index}`);
     cardRead.innerText = book.read
     card.appendChild(cardTitle);
     card.appendChild(cardAuthor);
@@ -73,22 +78,17 @@ const newCard = book => {
     removeBtn.setAttribute('data-index', `${book.index}`);
     removeBtn.innerText = 'Remove book from library.';
     card.appendChild(removeBtn);
-    const readBtn = document.createElement('input');
-    readBtn.setAttribute('class', 'readCheckbox');
-    readBtn.setAttribute('type', 'checkbox');
+    const readBtn = document.createElement('button');
+    readBtn.setAttribute('class', 'readBtn');
     readBtn.setAttribute('data-index', `${book.index}`);
-    const readLabel = document.createElement('label');
-    readLabel.setAttribute('class', 'readLabel');
-    readLabel.innerHTML = 'Read';
-    
+    readBtn.innerText = 'Click to change reading status';
     card.appendChild(readBtn);
+    
 }
 
 const displayBooks = () => {
     myLibrary.forEach(book => {
         newCard(book);
-        
-
     });
 }
 
@@ -106,10 +106,23 @@ const attachEventListeners = () => {
         if (eventTarget.className.includes('removeBtn')){
             myLibrary.splice(bookIndex, 1);
             selectors.cards.removeChild(eventParent);
+        } else if (eventTarget.className.includes('readBtn')){
+            let readStatus = myLibrary[bookIndex].read;
+            if (readStatus === 'Read'){
+                myLibrary[bookIndex].read = 'Unread';
+                resetBookDisplay();
+            } else if (readStatus === "Unread"){
+                myLibrary[bookIndex].read = 'Read';
+                resetBookDisplay();
+            }
         }
     })
 }
 
+const resetBookDisplay = () => {
+    selectors.cards.innerHTML = "";
+    displayBooks();
+}
 
 attachEventListeners()
 
