@@ -13,7 +13,7 @@ const selectors = {
 // form inputs
 const formInputs = {
     title: document.getElementById('#formTitle'),
-    author: document.getElementById('#fornAuthor'),
+    author: document.getElementById('#forAuthor'),
     pages: document.getElementById('#formPages'),
     read: document.getElementById('#formRead')
 }
@@ -30,6 +30,13 @@ class Book {
         this.index = Book.activeBooks
         myLibrary.push(this);
     }
+}
+
+const addToLibrary = () =>{
+    new Book (formInputs.title.value,
+        formInputs.author.value,
+        formInputs.pages.value,
+        (formInputs.read.hasAttribute('checked') ? "Read" : "Unread"));
 }
 
 // example books
@@ -81,7 +88,11 @@ const newCard = book => {
     const readBtn = document.createElement('button');
     readBtn.setAttribute('class', 'readBtn');
     readBtn.setAttribute('data-index', `${book.index}`);
-    readBtn.innerText = 'Click to change reading status';
+    if (book.read === "Read"){
+        readBtn.innerText = 'Mark book unread';
+    } else if(book.read === "Unread"){
+        readBtn.innerText = 'Mark book read'
+    }
     card.appendChild(readBtn);
     
 }
@@ -116,7 +127,9 @@ const attachEventListeners = () => {
                 resetBookDisplay();
             }
         }  else if (eventTarget.className.includes('newBookBtn')){
-                selectors.newBookForm.style.display = 'block'
+                selectors.newBookForm.style.display = 'grid'
+        } else if (eventTarget.className.includes('submitForm')){
+            addToLibrary()
         }
     })
 }
