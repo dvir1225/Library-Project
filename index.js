@@ -6,16 +6,16 @@ const selectors = {
     cards: document.querySelector('.cards'),
     newBookBtn: document.querySelector('.newBookBtn'),
     newBookForm: document.querySelector('.newBookForm'),
-    submitBtn: document.querySelector('.submitForm')
+    submitBtn: document.querySelector('.submitForm'),
 }
 
 
 // form inputs
 const formInputs = {
-    title: document.getElementById('#formTitle'),
-    author: document.getElementById('#forAuthor'),
-    pages: document.getElementById('#formPages'),
-    read: document.getElementById('#formRead')
+    title: document.getElementById('formTitle'),
+    author: document.getElementById('forAuthor'),
+    pages: document.getElementById('formPages'),
+    read: document.getElementById('formRead')
 }
 
 // class constructor that counts active books and adds book to myLibrary array
@@ -32,8 +32,8 @@ class Book {
     }
 }
 
-const addToLibrary = () =>{
-    new Book (formInputs.title.value,
+const addToLibrary = bookName =>{
+    bookName = new Book (formInputs.title.value,
         formInputs.author.value,
         formInputs.pages.value,
         (formInputs.read.hasAttribute('checked') ? "Read" : "Unread"));
@@ -126,10 +126,12 @@ const attachEventListeners = () => {
                 myLibrary[bookIndex].read = 'Read';
                 resetBookDisplay();
             }
-        }  else if (eventTarget.className.includes('newBookBtn')){
+        }  else if (eventTarget === selectors.newBookBtn){
                 selectors.newBookForm.style.display = 'grid'
-        } else if (eventTarget.className.includes('submitForm')){
-            addToLibrary()
+        } else if (eventTarget === selectors.submitBtn){
+            bookName = formInputs.title.value
+            addToLibrary(bookName);
+            resetBookDisplay();
         }
     })
 }
