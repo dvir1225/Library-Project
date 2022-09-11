@@ -1,3 +1,10 @@
+:root {
+    --lightTeal: #d1fffa;
+    --teal: #6FEDD6;
+    --orange: #FF9551;
+    --red: #FF4A4A;
+
+}
 html {
     font-size: 16px;
 }
@@ -5,39 +12,48 @@ html {
 body {
     margin: 0px;
     padding: 0px;
+    background-color: var(--lightTeal);
+}
+
+.header.title{
+    text-align: center;
+    padding-top: 20px;
 }
 .cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, 300px);
+    width: 80%;
     gap: 50px;
-    align-items: center;
-    justify-items: center;
+    margin: auto;
+    justify-content: center;
+    padding: 20px;
 }
 
 .card {
     display: flex;
     flex-direction: column;
     padding: 20px;
-    background-color: antiquewhite;
-    box-shadow: 2px 2px silver;
+    background-color: var(--red);
+    color: white;
+    box-shadow: 4px 4px lightgrey;
     text-align: center;
-    width: 17vw;
-    min-width: 250px;
-    height: 17vw;
-    min-height: 250px;
+    width: 250px;
+    height: 250px;
     gap: 10px;
+    border-radius: 7%;
+    border: 1px solid black;
 }
 
 .card > * {
     margin-bottom: 10px;
 }
-.title {
+.cardTitle {
     margin: auto;
     font-weight: bold;
     font-size: 1.5rem;
 }
 
-.author {
+.cardAuthor {
     font-size: 1.1rem;
     font-weight: bold;
     font-style: italic;

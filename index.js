@@ -32,7 +32,7 @@ class Book {
     }
 }
 
-const addToLibrary = bookName =>{
+const addToLibrary = (bookName) =>{
     bookName = new Book (formInputs.title.value,
         formInputs.author.value,
         formInputs.pages.value,
@@ -53,48 +53,97 @@ new Book("The Lord of the Rings", "J.R.R. Tolkien", 1216, "Unread" )
 const songOfIceFire =
 new Book("A Song of Ice and Fire", "George R.R.Martin", 720, "Read" )
 
-
-
-const newCard = book => {
+const createCard = (book) => {
     let card = document.createElement('div');
     card.setAttribute('class', 'card');
     card.setAttribute('data-index', `${book.index}`);
+    return card;
+}
+
+const createCardTitle = (book) => {
     let cardTitle = document.createElement('span');
     cardTitle.setAttribute('class', 'cardTitle');
     cardTitle.setAttribute('data-index', `${book.index}`);
-    cardTitle.innerText = book.title
+    cardTitle.innerText = book.title;
+    return cardTitle;
+}
+
+const createCardAuthor = (book) => {
     let cardAuthor = document.createElement('span');
     cardAuthor.setAttribute('class', 'cardAuthor');
     cardAuthor.setAttribute('data-index', `${book.index}`);
     cardAuthor.innerText = book.author
+    return cardAuthor
+}
+
+const createCardPages = (book) => {
     let cardPages = document.createElement('span');
     cardPages.setAttribute('data-index', `${book.index}`);
     cardPages.setAttribute('class', 'cardPages');
     cardPages.innerText = book.pages
+    return cardPages;
+}
+
+const createCardRead = (book) => {
     let cardRead = document.createElement('span');
     cardRead.setAttribute('class', 'cardRead');
     cardRead.setAttribute('data-index', `${book.index}`);
-    cardRead.innerText = book.read
-    card.appendChild(cardTitle);
-    card.appendChild(cardAuthor);
-    card.appendChild(cardPages);
-    card.appendChild(cardRead);
-    selectors.cards.appendChild(card);
-    const removeBtn = document.createElement('button');
+    cardRead.innerText = book.read;
+    return cardRead;
+}
+
+const createRemoveBtn = (book) => {
+    let removeBtn = document.createElement('button');
     removeBtn.setAttribute('class', 'removeBtn');
     removeBtn.setAttribute('data-index', `${book.index}`);
     removeBtn.innerText = 'Remove book from library.';
-    card.appendChild(removeBtn);
-    const readBtn = document.createElement('button');
+    return removeBtn;
+}
+
+const createReadBtn = (book) => {
+    let readBtn = document.createElement('button');
     readBtn.setAttribute('class', 'readBtn');
     readBtn.setAttribute('data-index', `${book.index}`);
     if (book.read === "Read"){
         readBtn.innerText = 'Mark book unread';
     } else if(book.read === "Unread"){
         readBtn.innerText = 'Mark book read'
-    }
+    } return readBtn;
+}
+
+const appendCard = (card, 
+    cardTitle, 
+    cardAuthor, 
+    cardPages, 
+    cardRead, 
+    removeBtn,
+    readBtn
+    ) => {
+    card.appendChild(cardTitle);
+    card.appendChild(cardAuthor);
+    card.appendChild(cardPages);
+    card.appendChild(cardRead);
+    card.appendChild(removeBtn);
     card.appendChild(readBtn);
-    
+    selectors.cards.appendChild(card);
+}
+
+const newCard = (book) => {
+    const card = createCard(book);
+    const cardTitle = createCardTitle(book);
+    const cardAuthor = createCardAuthor(book);
+    const cardPages = createCardPages(book);
+    const cardRead = createCardRead(book);
+    const removeBtn = createRemoveBtn(book);
+    const readBtn = createReadBtn(book);
+    appendCard(card, 
+        cardTitle, 
+        cardAuthor, 
+        cardPages, 
+        cardRead, 
+        removeBtn,
+        readBtn
+        )
 }
 
 const displayBooks = () => {
@@ -105,7 +154,25 @@ const displayBooks = () => {
 
 displayBooks();
     
+const clearForm = () => {
+    formInputs.title.value = '';
+    formInputs.author.value = '';
+    formInputs.pages.value = '';
+    formInputs.read.checked = false;
+}
 
+const checkForm = () => {
+    if (formInputs.title.value === ''){
+        alert('Book title was not inserted');
+        return false;
+    } else if (formInputs.author.value === ''){
+        alert('Book author was not inserted');
+        return false;
+    } else if (formInputs.pages.value === ''){
+        alert('Number of pages was not inserted');
+        return false;
+    } return true;
+}
 
 const attachEventListeners = () => {
     document.addEventListener('click', event => {
@@ -129,9 +196,12 @@ const attachEventListeners = () => {
         }  else if (eventTarget === selectors.newBookBtn){
                 selectors.newBookForm.style.display = 'grid'
         } else if (eventTarget === selectors.submitBtn){
+            if (checkForm() === true){
             bookName = formInputs.title.value
             addToLibrary(bookName);
             resetBookDisplay();
+            clearForm();
+            }
         }
     })
 }
